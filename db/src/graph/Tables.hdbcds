@@ -1,0 +1,34 @@
+namespace TravelApp.TravelDB;
+
+context Tables {
+    entity Airports {
+        key airportCode : String(3) not null;
+            airportName : String(100);
+            city        : String(100);
+            country     : String(100);
+            location    : hana.ST_GEOMETRY(4326);
+            altitude    : Integer;
+            offsetUTC   : Integer;
+            passengers  : Integer;
+    };
+
+    entity Routes {
+        key routeId                : Integer generated always as identity;
+            airlineCode            : String(2) not null;
+            airlineName            : String(100);
+            allianceName           : String(100);
+            airportCodeOrigin      : String(3) not null;
+            airportCodeDestination : String(3) not null;
+            distance               : Integer;
+            duration               : Integer;
+    };
+
+    table type TripRoutingTT {
+        segment                : Integer64;
+        airportCodeOrigin      : String(3);
+        airportCodeDestination : String(3);
+        airlineName            : String(100);
+        distance               : Integer;
+        duration               : Integer;
+    };
+};

@@ -1,0 +1,86 @@
+{
+	"welcomeFile": "index.html",
+	"authenticationMethod": "none",
+	"routes": [{
+		"source": "/node(.*)",
+		"destination": "js_api",
+		"csrfProtection": true,
+		"authenticationType": "none",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"PUT": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"DELETE": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Delete"
+			],
+			"default": "$XSAPPNAME.Display"
+		}
+
+	}, {
+		"source": "(.*)(.xsjs)",
+		"destination": "xsjs_api",
+		"csrfProtection": true,
+		"authenticationType": "none",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"PUT": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"DELETE": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Delete"
+			],
+			"default": "$XSAPPNAME.Display"
+		}
+	}, {
+		"source": "(.*)(.xsodata)",
+		"destination": "xsjs_api",
+		"authenticationType": "none",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"POST": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"PUT": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Create"
+			],
+			"DELETE": [
+				"$XSAPPNAME.Display",
+				"$XSAPPNAME.Delete"
+			],
+			"default": "$XSAPPNAME.Display"
+		}
+	}, {
+		"source": "/(.*)",
+		"localDir": "resources",
+		"authenticationType": "none",
+		"scope": {
+			"GET": "$XSAPPNAME.Display",
+			"default": "$XSAPPNAME.Display"
+		},
+		"replace": {
+			"pathSuffixes": [
+				"index.html"
+			],
+			"services": {
+				"sapui5_sb": {
+					"tag": "ui5"
+				}
+			}
+		}
+	}]
+}

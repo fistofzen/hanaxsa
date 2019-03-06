@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="TravelApp.TravelDB::TripRouting" applyPrivilegeType="NONE" dataCategory="DEFAULT" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="TripRoutingSP"/>
+<localVariables>
+  <variable id="_airportCodeOrigin" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="3" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+    </variableProperties>
+  </variable>
+  <variable id="_airportCodeDestination" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="3" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+    </variableProperties>
+  </variable>
+
+  <variable id="_weight" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="20" mandatory="false">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:GraphView" id="Graph_1" workspace="TravelApp.TravelDB::Flights" action="GET_SHORTEST_PATH_ONE_TO_ONE">
+    <viewAttributes>
+      <viewAttribute datatype="DECIMAL" length="18" id="ORDERING"/>
+      <viewAttribute datatype="INTEGER" length="10" id="WEIGHT"/>
+      <viewAttribute datatype="INTEGER" length="10" id="routeId"/>
+      <viewAttribute datatype="NVARCHAR" length="3" id="airportCodeOrigin"/>
+      <viewAttribute datatype="NVARCHAR" length="3" id="airportCodeDestination"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <getShortestPathParameterization>
+      <startVertexParameter>_airportCodeOrigin</startVertexParameter>
+      <inputWeightColumnParameter>_weight</inputWeightColumnParameter>
+      <direction>outgoing</direction>
+      <targetVertexParameter>_airportCodeDestination</targetVertexParameter>
+    </getShortestPathParameterization>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Graph_1">
+  <attributes>
+    <attribute id="ORDERING" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="ORDERING"/>
+      <keyMapping columnObjectName="Graph_1" columnName="ORDERING"/>
+    </attribute>
+    <attribute id="WEIGHT" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="WEIGHT"/>
+      <keyMapping columnObjectName="Graph_1" columnName="WEIGHT"/>
+    </attribute>
+    <attribute id="routeId" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="routeId"/>
+      <keyMapping columnObjectName="Graph_1" columnName="routeId"/>
+    </attribute>
+    <attribute id="airportCodeOrigin" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="airportCodeOrigin"/>
+      <keyMapping columnObjectName="Graph_1" columnName="airportCodeOrigin"/>
+    </attribute>
+    <attribute id="airportCodeDestination" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="airportCodeDestination"/>
+      <keyMapping columnObjectName="Graph_1" columnName="airportCodeDestination"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="40" y="85"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Graph_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="90" y="256"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario>

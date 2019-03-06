@@ -1,0 +1,20 @@
+PROCEDURE "TravelApp.TravelDB::TripRoutingSP" (IN airportCodeOrigin NVARCHAR(3), IN airportCodeDestination NVARCHAR(3), OUT totalSegments BigInt, OUT totalDistance Int, OUT totalDuration Int, OUT routing "TravelApp.TravelDB::Tables.TripRoutingTT")
+   LANGUAGE GRAPH
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   READS SQL DATA AS
+BEGIN
+   /*************************************
+       Write your procedure logic 
+   *************************************/
+	Graph g = Graph("TravelApp.TravelDB::Flights");
+	Vertex sourceVertex = Vertex(:g, :airportCodeOrigin);
+	Vertex targetVertex = Vertex(:g, :airportCodeDestination);
+	WeightedPath<BigInt> p = SHORTEST_PATH(:g, :sourceVertex, :targetVertex);
+	totalSegments = Length(:p);
+	FOREACH e IN Edges(:p) {
+		totalDistance = :totalDistance + :e."distance";
+		totalDuration = :totalDuration + :e."duration";
+	}
+	routing = SELECT :segment, :e."airportCodeOrigin",  :e."airportCodeDestination", :e."airlineName", :e."distance", :e."duration" FOREACH e in Edges(:p) WITH ORDINALITY AS segment;
+END

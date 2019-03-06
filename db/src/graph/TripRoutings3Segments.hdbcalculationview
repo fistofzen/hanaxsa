@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Calculation:scenario xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Calculation="http://www.sap.com/ndb/BiModelCalculation.ecore" id="TravelApp.TravelDB::TripRoutings3Segments" applyPrivilegeType="NONE" dataCategory="DEFAULT" schemaVersion="3.0" outputViewType="Projection" cacheInvalidationPeriod="NONE" enforceSqlExecution="false">
+<descriptions defaultDescription="TripRoutings3Segments"/>
+<localVariables>
+  <variable id="airportCodeFrom" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="3" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+      <defaultRange lowValue="NTE"/>
+    </variableProperties>
+  </variable>
+  <variable id="airportCodeTo" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="3" mandatory="true">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+      <defaultRange lowValue="PDX"/>
+    </variableProperties>
+  </variable>
+  <variable id="customFilter" parameter="true">
+    <descriptions defaultDescription=""/>
+    <variableProperties datatype="NVARCHAR" length="100" mandatory="false">
+      <valueDomain type="empty"/>
+      <selection multiLine="false" type="Single"/>
+      <defaultRange lowValue=" "/>
+    </variableProperties>
+  </variable>
+</localVariables>
+<variableMappings/>
+<dataSources/>
+<calculationViews>
+  <calculationView xsi:type="Calculation:GraphView" id="Graph_1" workspace="TravelApp.TravelDB::Flights" action="SCRIPT_PATTERN_MATCHING">
+    <viewAttributes>
+      <viewAttribute datatype="NVARCHAR" length="100" id="airlineName1"/>
+      <viewAttribute datatype="NVARCHAR" length="3" id="transferAirportCode1"/>
+      <viewAttribute datatype="NVARCHAR" length="100" id="airlineName2"/>
+      <viewAttribute datatype="NVARCHAR" length="3" id="transferAirportCode2"/>
+      <viewAttribute datatype="NVARCHAR" length="100" id="airlineName3"/>
+    </viewAttributes>
+    <calculatedViewAttributes/>
+    <restrictedViewAttributes/>
+    <scriptPatternMatching language="CYPHER">
+      <expression><![CDATA[MATCH (a)-[e1]->(b)
+MATCH (b)-[e2]->(c)
+MATCH (c)-[e3]->(d)
+WHERE a.airportCode = '$$airportCodeFrom$$' AND d.airportCode = '$$airportCodeTo$$' $$customFilter$$
+RETURN e1.airlineName AS airlineName1, b.airportCode AS transferAirportCode1, e2.airlineName AS airlineName2, c.airportCode AS transferAirportCode2, e3.airlineName AS airlineName3]]></expression>
+    </scriptPatternMatching>
+  </calculationView>
+</calculationViews>
+<logicalModel id="Graph_1">
+  <attributes>
+    <attribute id="airlineName1" order="1" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="airlineName1"/>
+      <keyMapping columnObjectName="Graph_1" columnName="airlineName1"/>
+    </attribute>
+    <attribute id="transferAirportCode1" order="2" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="transferAirportCode1"/>
+      <keyMapping columnObjectName="Graph_1" columnName="transferAirportCode1"/>
+    </attribute>
+    <attribute id="airlineName2" order="3" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="airlineName2"/>
+      <keyMapping columnObjectName="Graph_1" columnName="airlineName2"/>
+    </attribute>
+    <attribute id="transferAirportCode2" order="4" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="transferAirportCode2"/>
+      <keyMapping columnObjectName="Graph_1" columnName="transferAirportCode2"/>
+    </attribute>
+    <attribute id="airlineName3" order="5" displayAttribute="false" attributeHierarchyActive="false">
+      <descriptions defaultDescription="airlineName3"/>
+      <keyMapping columnObjectName="Graph_1" columnName="airlineName3"/>
+    </attribute>
+  </attributes>
+  <calculatedAttributes/>
+  <baseMeasures/>
+  <calculatedMeasures/>
+  <restrictedMeasures/>
+</logicalModel>
+<layout>
+  <shapes>
+    <shape expanded="true" modelObjectName="Output" modelObjectNameSpace="MeasureGroup">
+      <upperLeftCorner x="102" y="112"/>
+    
+      <rectangleSize width="140"/>
+    </shape>
+  
+    <shape expanded="true" modelObjectName="Graph_1" modelObjectNameSpace="CalculationView">
+      <upperLeftCorner x="92" y="217"/>
+      <rectangleSize height="30" width="160"/>
+    </shape>
+  </shapes>
+</layout>
+</Calculation:scenario> 
